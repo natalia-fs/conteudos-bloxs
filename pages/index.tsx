@@ -22,7 +22,17 @@ type Post = {
   author: number;
   categories: Array<number>;
   tags: Array<number>;
+  yoast_head_json: YoastHeadJson;
 };
+
+type YoastHeadJson = {
+  description: string;
+  og_site_name: string;
+  og_image: Array<{
+    url: string;
+    type: string;
+  }>
+}
 
 const PER_PAGE = 3;
 
@@ -48,22 +58,46 @@ export default function Home() {
   return (
     <div className={styles.homepage}>
 
-      <h2>Bloxs News</h2>
+      <h1>Bloxs News</h1>
       <section className={styles.postsContainer}>
 
         {energyPosts.map((post: Post) => {
           return (
-            <div key={post.id} className={styles.postContainer}>
-              {post.title.rendered}
-            </div>
+            <a href={'#'} target="_blank" key={post.id} className={styles.postContainer}>
+              
+              <img src={post.yoast_head_json.og_image[0].url} className={styles.postImage}/>
+              <h3 className={styles.postTitle}> {post.title.rendered} </h3>
+              <span className={styles.postDate}>
+                {
+                  new Date(post.date)
+                    .toLocaleString('pt-BR', {dateStyle: 'short', timeStyle: 'short'})
+                }
+              </span>
+              <p className={styles.postDescription}>
+                {post.yoast_head_json.description}
+              </p>
+
+            </a>
           );
         })}
-        <hr />
+
         {agrobusinessPosts.map((post: Post) => {
           return (
-            <div key={post.id} className={styles.postContainer}>
-              {post.title.rendered}
-            </div>
+            <a href={'#'} target="_blank" key={post.id} className={styles.postContainer}>
+              
+              <img src={post.yoast_head_json.og_image[0].url} className={styles.postImage}/>
+              <h3 className={styles.postTitle}> {post.title.rendered} </h3>
+              <span className={styles.postDate}>
+                {
+                  new Date(post.date)
+                    .toLocaleString('pt-BR', {dateStyle: 'short', timeStyle: 'short'})
+                }
+              </span>
+              <p className={styles.postDescription}>
+                {post.yoast_head_json.description}
+              </p>
+
+            </a>
           );
         })}
 
