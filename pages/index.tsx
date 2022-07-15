@@ -1,9 +1,10 @@
 import { api } from "./api";
 import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
+import { Post } from "../src/components/Post";
 // import ReactHtmlParser from 'react-html-parser';
 
-type Post = {
+export interface Post {
   id: number;
   date: string;
   modified: string;
@@ -57,52 +58,28 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={styles.homepage}>
+    <main className={styles.homepage}>
 
       <h1>Bloxs News</h1>
       <section className={styles.postsContainer}>
 
-        {energyPosts.map((post: Post) => {
-          return (
-            <a href={'#'} target="_blank" key={post.id} className={styles.postContainer}>
-              
-              <img src={post.yoast_head_json.og_image[0].url} className={styles.postImage}/>
-              <h3 className={styles.postTitle}> {post.title.rendered} </h3>
-              <span className={styles.postDate}>
-                {
-                  new Date(post.date)
-                    .toLocaleString('pt-BR', {dateStyle: 'short', timeStyle: 'short'})
-                }
-              </span>
-              <p className={styles.postDescription}>
-                {post.yoast_head_json.description}
-              </p>
+        <div className={styles.energyPosts}>
+          {energyPosts.map((post: Post) => {
+            return (
+              <Post key={post.id} post={post} />
+            );
+          })}
+        </div>
 
-            </a>
-          );
-        })}
-
-        {agrobusinessPosts.map((post: Post) => {
-          return (
-            <a href={'#'} target="_blank" key={post.id} className={styles.postContainer}>
-              
-              <img src={post.yoast_head_json.og_image[0].url} className={styles.postImage}/>
-              <h3 className={styles.postTitle}> {post.title.rendered} </h3>
-              <span className={styles.postDate}>
-                {
-                  new Date(post.date)
-                    .toLocaleString('pt-BR', {dateStyle: 'short', timeStyle: 'short'})
-                }
-              </span>
-              <p className={styles.postDescription}>
-                {post.yoast_head_json.description}
-              </p>
-
-            </a>
-          );
-        })}
+        <div className={styles.agrobusinessPosts}>
+          {agrobusinessPosts.map((post: Post) => {
+            return (
+              <Post key={post.id} post={post} />
+            );
+          })}
+        </div>
 
       </section>
-    </div>
+    </main>
   );
 }
