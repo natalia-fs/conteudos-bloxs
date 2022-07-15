@@ -1,6 +1,6 @@
-import { GetStaticProps } from "next";
 import { api } from "./api";
 import styles from "../styles/Home.module.css";
+import { useEffect, useState } from "react";
 
 type Post = {
   id: number;
@@ -24,30 +24,44 @@ type Post = {
   tags: Array<number>;
 };
 
-type HomeProps = {
-  energyPosts: Post[];
-  agrobusinessPosts: Post[];
-};
+const PER_PAGE = 3;
 
-export default function Home({ energyPosts, agrobusinessPosts }: HomeProps) {
+export default function Home() {
+  const [energyPosts, setEnergyPosts] = useState<Array<Post>>([]);
+  const [agrobusinessPosts, setAgrobusinessPosts] = useState<Array<Post>>([]);
+
+  useEffect( () => {
+    api.get("posts", { params: {
+      per_page: PER_PAGE,
+      page: 1,
+      _embed: 1,
+      categories: 74
+    }}).then(response => setEnergyPosts(response.data));
+    api.get("posts", { params: {
+      per_page: PER_PAGE,
+      page: 1,
+      _embed: 1,
+      categories: 76
+    }}).then(response => setAgrobusinessPosts(response.data));
+  }, []);
 
   return (
     <div className={styles.homepage}>
 
-      <section className={styles.allEpisodes}>
-        <h2>Bloxs News</h2>
+      <h2>Bloxs News</h2>
+      <section className={styles.postsContainer}>
 
-        {energyPosts.map((post) => {
+        {energyPosts.map((post: Post) => {
           return (
-            <div key={post.id}>
+            <div key={post.id} className={styles.postContainer}>
               {post.title.rendered}
             </div>
           );
         })}
         <hr />
-        {agrobusinessPosts.map((post) => {
+        {agrobusinessPosts.map((post: Post) => {
           return (
-            <div key={post.id}>
+            <div key={post.id} className={styles.postContainer}>
               {post.title.rendered}
             </div>
           );
@@ -57,65 +71,3 @@ export default function Home({ energyPosts, agrobusinessPosts }: HomeProps) {
     </div>
   );
 }
-
-export const getStaticProps: GetStaticProps = async () => {
-  const energyPosts = await api.get("posts", {
-    params: {
-      per_page: 3,
-      page: 1,
-      _embed: 1,
-      categories: 74
-    },
-  }).then(response => response.data);
-  const agrobusinessPosts = await api.get("posts", {
-    params: {
-      per_page: 3,
-      page: 1,
-      _embed: 1,
-      categories: 76
-    },
-  }).then(response => response.data);
-
-  const energyPostsData = energyPosts.map((post: Post) => {
-    return {
-      id: post.id,
-      date: post.date,
-      modified: post.modified,
-      slug: post.slug,
-      status: post.status,
-      type: post.type,
-      link: post.link,
-      title: post.title,
-      content: post.content,
-      excerpt: post.excerpt,
-      author: post.author,
-      categories: post.categories,
-      tags: post.tags
-    };
-  });
-  const agrobusinessPostsData = agrobusinessPosts.map((post: Post) => {
-    return {
-      id: post.id,
-      date: post.date,
-      modified: post.modified,
-      slug: post.slug,
-      status: post.status,
-      type: post.type,
-      link: post.link,
-      title: post.title,
-      content: post.content,
-      excerpt: post.excerpt,
-      author: post.author,
-      categories: post.categories,
-      tags: post.tags
-    };
-  });
-
-  return {
-    props: {
-      energyPosts: energyPostsData,
-      agrobusinessPosts: agrobusinessPostsData
-    },
-    revalidate: 60 * 60 * 3, //seconds
-  };
-};
