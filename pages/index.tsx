@@ -1,6 +1,7 @@
 import { api } from "./api";
 import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
+// import ReactHtmlParser from 'react-html-parser';
 
 type Post = {
   id: number;
