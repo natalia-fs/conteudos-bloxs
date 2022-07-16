@@ -20,6 +20,7 @@ export function Post({post} : PostProps) {
       <a
         href={'#'}
         target="_blank"
+        rel="noreferrer"
         className={styles.postContent}
       >
         <div>
