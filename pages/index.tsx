@@ -2,7 +2,8 @@ import { api } from "./api";
 import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
 import { Post } from "../src/components/Post";
-// import ReactHtmlParser from 'react-html-parser';
+import Carousel from "react-multi-carousel";
+import 'react-multi-carousel/lib/styles.css';
 
 export interface Post {
   id: number;
@@ -58,11 +59,12 @@ export default function Home() {
   }, []);
 
   return (
-    <main className={styles.homepage}>
+    <main className={styles.homePage}>
 
       <h1>Bloxs News</h1>
       <section className={styles.postsContainer}>
 
+        <h2>Energia</h2>
         <div className={styles.energyPosts}>
           {energyPosts.map((post: Post) => {
             return (
@@ -71,6 +73,7 @@ export default function Home() {
           })}
         </div>
 
+        <h2>Agronegócio</h2>
         <div className={styles.agrobusinessPosts}>
           {agrobusinessPosts.map((post: Post) => {
             return (
