@@ -2,7 +2,8 @@ import { api } from "./api";
 import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
 import { Post } from "../src/components/Post";
-// import ReactHtmlParser from 'react-html-parser';
+import Carousel from "react-multi-carousel";
+import 'react-multi-carousel/lib/styles.css';
 
 export interface Post {
   id: number;
