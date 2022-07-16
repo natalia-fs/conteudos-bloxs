@@ -1,17 +1,39 @@
 .postContainer{
+  background: var(--background);
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   padding: 1.5rem 1rem;
-  max-width: 25rem;
+  margin: 1rem;
+  width: calc(100%) - 1rem;
+  height: 16rem;
   text-align: justify;
-  border: 1px solid;
+  border: 1px solid var(--text-variant);
   border-radius: .8rem;
+  align-items: center;
+  transition: .3s transform;
+}
+
+.postContainer:hover{
+  transform: translateY(-4px);
+  filter: drop-shadow(0 4px 2px black);
 }
 
 .postImage{
-  width: 100%;
+  min-width: 35%;
+  max-width: 40rem;
   height: 12rem;
   object-fit: cover;
+  border-radius: .4rem;
+}
+
+
+.postContent{
+  max-width: 50%;
+  height: 100%;
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  
 }
 
 .postDate{
@@ -20,4 +42,25 @@
 
 .postDescription{
   margin-top: .4rem;
+  height: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  /* white-space: nowrap; */
+  word-wrap: break-word;
+}
+
+@media (max-width: 720px){
+  .postDescription{
+    margin-top: .4rem;
+    height: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    word-wrap: break-word;
+  }
+}
+@media (max-width: 720px){
+  .postTitle{
+    font-size: 1.2rem;
+  }
 }

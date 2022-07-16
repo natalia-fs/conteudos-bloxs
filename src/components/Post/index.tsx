@@ -1,7 +1,6 @@
 import { Post } from "../../../pages"
 import styles from "./Post.module.css";
 
-
 interface PostProps {
   post: Post
 }
@@ -9,29 +8,34 @@ interface PostProps {
 export function Post({post} : PostProps) {
 
   return (
-    <>
+    <div
+      className={styles.postContainer}
+
+    >
+      <img
+        src={post.yoast_head_json?.og_image[0]?.url}
+        className={styles.postImage}
+      />
+      {/* TODO: implementar modal ou nova página para ler o conteúdo completo */}
       <a
-        className={styles.postContainer}
         href={'#'}
         target="_blank"
+        className={styles.postContent}
       >
+        <div>
+          <h2 className={styles.postTitle}> {post.title?.rendered} </h2>
+          <span className={styles.postDate}>
+            { post.date &&
+              new Date(post.date)
+                .toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })
+            }
+          </span>
+          <p className={styles.postDescription}>
+            {post.yoast_head_json?.description}
+          </p>
 
-        <img
-          src={post.yoast_head_json.og_image[0].url}
-          className={styles.postImage}
-        />
-        <h3 className={styles.postTitle}> {post.title.rendered} </h3>
-        <span className={styles.postDate}>
-          {
-            new Date(post.date)
-              .toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })
-          }
-        </span>
-        <p className={styles.postDescription}>
-          {post.yoast_head_json.description}
-        </p>
-
+        </div>
       </a>
-    </>
+    </div>
   )
 }
