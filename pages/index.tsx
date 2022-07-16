@@ -1,8 +1,10 @@
 import { api } from "./api";
 import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
+import { Post } from "../src/components/Post";
+// import ReactHtmlParser from 'react-html-parser';
 
-type Post = {
+export interface Post {
   id: number;
   date: string;
   modified: string;
@@ -22,7 +24,17 @@ type Post = {
   author: number;
   categories: Array<number>;
   tags: Array<number>;
+  yoast_head_json: YoastHeadJson;
 };
+
+type YoastHeadJson = {
+  description: string;
+  og_site_name: string;
+  og_image: Array<{
+    url: string;
+    type: string;
+  }>
+}
 
 const PER_PAGE = 3;
 
@@ -46,28 +58,28 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={styles.homepage}>
+    <main className={styles.homepage}>
 
-      <h2>Bloxs News</h2>
+      <h1>Bloxs News</h1>
       <section className={styles.postsContainer}>
 
-        {energyPosts.map((post: Post) => {
-          return (
-            <div key={post.id} className={styles.postContainer}>
-              {post.title.rendered}
-            </div>
-          );
-        })}
-        <hr />
-        {agrobusinessPosts.map((post: Post) => {
-          return (
-            <div key={post.id} className={styles.postContainer}>
-              {post.title.rendered}
-            </div>
-          );
-        })}
+        <div className={styles.energyPosts}>
+          {energyPosts.map((post: Post) => {
+            return (
+              <Post key={post.id} post={post} />
+            );
+          })}
+        </div>
+
+        <div className={styles.agrobusinessPosts}>
+          {agrobusinessPosts.map((post: Post) => {
+            return (
+              <Post key={post.id} post={post} />
+            );
+          })}
+        </div>
 
       </section>
-    </div>
+    </main>
   );
 }
